@@ -16,6 +16,6 @@
     (scroll-bar-mode -1)
     (tool-bar-mode -1))
 
-  (load-theme 'tsdh-light t))
+  (load-theme 'modus-vivendi t))
 
 (provide 'stuff/config/base)
