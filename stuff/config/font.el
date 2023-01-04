@@ -12,10 +12,6 @@
 	 ((string-equal system-type "darwin")
 	  (funcall set-font "Menlo" font-size))
 	 ((string-equal system-type "gnu/linux")
-	  ;; todo: write smth nicier for linux
-      (when (member "DejaVu Math TeX Gyre" (font-family-list))
-		(set-frame-font
-		 (concat "DejaVu Sans Mono " (format "%s" font-size))
-		 t t))))))
+	  (funcall set-font "DejaVu Sans Mono" font-size)))))
 
 (provide 'stuff/config/font)
