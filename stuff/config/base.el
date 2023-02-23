@@ -13,9 +13,7 @@
   (setq kept-old-versions 2)
   (setq indent-tabs-mode nil)
   (setq-default tab-width 4)
-  (setq dired-listing-switches "-alFh")
-
-  
+  (setq dired-listing-switches "-alFh")  
 
   (menu-bar-mode -1)
   (when (display-graphic-p)
