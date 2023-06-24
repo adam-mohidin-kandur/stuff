@@ -1,0 +1,73 @@
+* Config
+
+** Base
+#+BEGIN_SRC emacs-lisp
+  (defun stuff-config-base ()
+	;; fix tramp for guix
+	(require 'tramp)
+	(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+	(setq inhibit-startup-message t)
+
+	(setq backup-by-copying t)
+	(setq backup-directory-alist '(("." . "~/.emacs-saves/")))
+
+	(setq delete-old-versions t)
+	(setq kept-new-versions 6)
+	(setq kept-old-versions 2)
+	(setq indent-tabs-mode nil)
+	(setq-default tab-width 4)
+	(setq dired-listing-switches "-alFh")  
+
+	(menu-bar-mode -1)
+	(when (display-graphic-p)
+	  (scroll-bar-mode -1)
+	  (tool-bar-mode -1))
+
+	(load-theme 'tsdh-light t))
+#+END_SRC
+
+** Font
+Sets convinient fonts.
+
+#+BEGIN_SRC emacs-lisp
+  (defun stuff-config-font-set-font (font-size)
+	(let ((set-font (lambda (font-name font-size)
+					  (when (member font-name (font-family-list))
+						(set-frame-font
+						 ;; need space between font name and it's size
+						 (concat font-name (format " %s" font-size)) t t))
+					  )))
+	  (cond
+	   ((string-equal system-type "windows-nt")
+		(funcall set-font "Consolas" font-size))
+	   ((string-equal system-type "darwin")
+		(funcall set-font "Menlo" font-size))
+	   ((string-equal system-type "gnu/linux")
+		(funcall set-font "DejaVu Sans Mono" font-size)))))
+#+END_SRC
+
+** Packages
+#+BEGIN_SRC emacs-lisp
+  (setq stuff-config-packages-list
+		'(eglot async company))
+
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+						   ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+						   ("melpa" . "https://melpa.org/packages/")))
+
+  (defun stuff-config-packages-install-packages ()
+	(package-initialize)
+
+	(unless package-archive-contents
+	  (package-refresh-contents))
+
+	(dolist (package stuff-config-packages-list)
+	  (unless (package-installed-p package)
+		(package-install package))))
+#+END_SRC
+
+** Provide
+#+BEGIN_SRC emacs-lisp
+  (provide 'stuff/config)
+#+END_SRC

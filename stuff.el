@@ -1,16 +1,16 @@
-(require 'stuff/config/base)
-(require 'stuff/config/font)
-(require 'stuff/config/packages)
-(require 'stuff/tools/check)
-(require 'stuff/tools/set-monitor)
+(require 'stuff/config)
+(require 'stuff/tools)
 
-(defvar stuff-font-size 14)
+(defvar stuff-default-font-size 14)
 
-(defun stuff-init ()
-  "Entry point"
-  (interactive)
+(defun stuff-interactive-init (font-size)
+  (interactive "sEnter font size to use> ")
+  (stuff-init font-size))
+
+(defun stuff-init (font-size)
+  "Initialize configs."
   (stuff-config-base)
-  (stuff-config-font-set-font stuff-font-size)
+  (stuff-config-font-set-font font-size)
   (if (not (stuff-tools-check-guix-p))
 	  (stuff-config-packages-install-packages))
   (global-set-key (kbd "<f12>") 'stuff-tools-set-monitor))

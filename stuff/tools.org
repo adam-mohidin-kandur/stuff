@@ -1,0 +1,22 @@
+* Tools
+
+** Check Guix
+Check the system I use for a guix instance.
+
+#+BEGIN_SRC emacs-lisp
+  (defun stuff-tools-check-guix-p ()
+	(file-directory-p "/gnu/store"))
+#+END_SRC
+
+** Set a monitor
+Set the external monitor I use the way I like.
+#+BEGIN_SRC emacs-lisp
+  (defun stuff-tools-set-monitor()
+	(interactive)
+	(shell-command "MonitorChecker.sh"))
+#+END_SRC
+
+** Provide
+#+BEGIN_SRC emacs-lisp
+  (provide 'stuff/tools)
+#+END_SRC
