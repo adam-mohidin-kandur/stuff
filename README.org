@@ -1,5 +1,5 @@
 #+title: Stuff
-My emacs configuration written as a library (with some additional utils in elisp).
+My literal emacs config...
 
 * Installation
 
