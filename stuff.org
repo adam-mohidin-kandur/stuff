@@ -1,0 +1,56 @@
+* My literate Emacs config
+Yet another attempt to make a literate config for my favorite text "operating system".
+I tried to make it cross platform, but my main focus is [[https://guix.gnu.org/][Guix]].
+
+First I load my modules. I ignore errors, that's needed because of the way Guix build elisp packages.
+#+BEGIN_SRC emacs-lisp
+  (require 'stuff/config nil 'noerror)
+  (require 'stuff/tools nil 'noerror)
+#+END_SRC
+
+This is entry point where everyting is triggered.
+#+BEGIN_SRC emacs-lisp
+  (defun stuff-init (&rest args)
+	(let ((font-size (or (plist-get args :font-size) "14"))
+		  (use-exwm (or (plist-get args :use-exwm) nil)))
+	  (stuff-config-base)
+	  (stuff-config-font-set-font font-size)
+
+	  (if (not (stuff-tools-check-guix-p))
+		  (stuff-config-packages-install-packages))
+
+	  (if (stuff-tools-check-guix-p)
+		  (progn (add-hooks)
+				 (set-keys)))
+	  (if use-exwm
+		  (progn
+			(set-frame-parameter (selected-frame) 'alpha '(80 . 80))
+			(add-to-list 'default-frame-alist '(alpha . (80 . 80)))
+			(set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+			(add-to-list 'default-frame-alist '(fullscreen . maximized))
+			(stuff-tools-set-monitor)))))
+#+END_SRC
+
+Hooks for opening files using Emacs. Usefull when I am using exwm.
+#+BEGIN_SRC emacs-lisp
+  (defun add-hooks ()
+	(add-hook 'find-file-hook (lambda ()
+								(when (string= (file-name-extension buffer-file-name) "mp4")
+								  (async-shell-command (concat "vlc " buffer-file-name))
+								  (kill-buffer (buffer-name)))))
+
+	(add-hook 'find-file-hook (lambda ()
+								(when (string= (file-name-extension buffer-file-name) "pdf")
+								  (pdf-tools-install)))))
+#+END_SRC
+
+Set keys which I use with exwm.
+#+BEGIN_SRC emacs-lisp
+  (defun set-keys ()
+	(global-set-key (kbd "<f12>") 'stuff-tools-set-monitor))
+#+END_SRC
+
+And finally I provide the module
+#+BEGIN_SRC emacs-lisp
+  (provide 'stuff)
+#+END_SRC

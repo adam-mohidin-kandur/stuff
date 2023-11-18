@@ -1,6 +1,5 @@
 * Config
 
-** Base
 #+BEGIN_SRC emacs-lisp
   (defun stuff-config-base ()
 	;; fix tramp for guix
@@ -25,12 +24,11 @@
 	  (scroll-bar-mode -1)
 	  (tool-bar-mode -1))
 
+	(electric-pair-mode)
 	(load-theme 'tsdh-light t))
 #+END_SRC
 
-** Font
-Sets convinient fonts.
-
+Set convinient fonts.
 #+BEGIN_SRC emacs-lisp
   (defun stuff-config-font-set-font (font-size)
 	(let ((set-font (lambda (font-name font-size)
@@ -48,10 +46,11 @@ Sets convinient fonts.
 		(funcall set-font "DejaVu Sans Mono" font-size)))))
 #+END_SRC
 
-** Packages
+Todo. Here I define package I want to use and package archives.
+It is useful when I am not using Guix.
 #+BEGIN_SRC emacs-lisp
   (setq stuff-config-packages-list
-		'(eglot async company))
+		'(async))
 
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
 						   ("nongnu" . "https://elpa.nongnu.org/nongnu/")
@@ -68,7 +67,6 @@ Sets convinient fonts.
 		(package-install package))))
 #+END_SRC
 
-** Provide
 #+BEGIN_SRC emacs-lisp
   (provide 'stuff/config)
 #+END_SRC
